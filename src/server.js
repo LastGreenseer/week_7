@@ -44,8 +44,6 @@ app.post("/books/addBook", (request, response) => {
 
 //updateBook
 app.put("/books", (request, response) => {
-  // in here, find a book by title (i.e. an element of fakeArr where the element title is the same as request.body.title)
-  // change (update) the author to an new name
   console.log(request.body);
   //function to find the book title
   function findBook(x) {
@@ -75,20 +73,17 @@ app.put("/books", (request, response) => {
 });
 
 app.delete("/books", (request, response) => {
-  // in here, find a book by title (i.e. an element of fakeArr where the element title is the same as request.body.title)
-  // remove (delete) the element from the array
-
+ 
   const index = fakeData.findIndex((book) => book.title === request.body.title);
 
   if (index === -1) {
     const failureResponse = {
-      message: `${resuest.body.title} not found`,
+      message: `${request.body.title} not found`,
     };
     response.send(failureResponse);
     return;
   }
 
-  //Update the title of the found book
   fakeData.splice(index, 1);
 
   const successResponse = {
