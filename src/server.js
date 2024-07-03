@@ -12,18 +12,9 @@ app.use(express.json());
 
 connection();
 
-//gettAllBooks
-app.get("/books/getAllBooks", async (request, response) => {
-  const allBooks = await Book.find({});
-  console.log(allBooks);
+app.use(bookRouter)
 
-  const successResponse = {
-    message: "success",
-    allBooks: allBooks,
-  };
 
-  response.send(successResponse);
-});
 
 // addBook
 app.post("/books/addBook", async (request, response) => {
