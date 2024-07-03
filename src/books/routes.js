@@ -16,6 +16,9 @@ bookRouter.get("/books/getAllBooks", getAllBooks);
 bookRouter.post("/books/addBook", addBook);
 
 //finds a book my title and changes the author
-bookRouter.put("/books", updateBook);
+bookRouter.put("/books/updateBook", updateBook);
+
+//deleteBook
+// bookRouter.delete("/books",deleteBook);
 
 module.exports = bookRouter;
