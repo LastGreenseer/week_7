@@ -2,9 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 
-const Book = require("./books/model")
+const Book = require("./books/model");
 
 const connection = require("./db/connection");
+
+const bookRouter = require("./books/routes");
 
 const app = express();
 
@@ -12,9 +14,7 @@ app.use(express.json());
 
 connection();
 
-app.use(bookRouter)
-
-
+app.use(bookRouter);
 
 // addBook
 app.post("/books/addBook", async (request, response) => {
@@ -31,7 +31,6 @@ app.post("/books/addBook", async (request, response) => {
 
   response.send(successResponse);
 });
-
 
 //finds a book my title and changes the author===============================================================
 app.put("/books", async (request, response) => {
@@ -55,14 +54,16 @@ app.put("/books", async (request, response) => {
   } catch (error) {
     response
       .status(500)
-      .json({ message: "An unexpected error has occured", error: error.message });
+      .json({
+        message: "An unexpected error has occured",
+        error: error.message,
+      });
   }
 });
 //finds a book my title and changes the author================================================================
 
 //deleteBook
 app.delete("/books", async (request, response) => {});
-
 
 app.listen(5001, () => {
   console.log(`Server is listening of port 5001`);
