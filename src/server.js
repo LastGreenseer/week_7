@@ -2,14 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 
+const connection = require("./db/connection");
+
 const app = express();
 
 app.use(express.json());
-
-const connection = async () => {
-  await mongoose.connect(process.env.MONGO_URI);
-  console.log("DB is working");
-};
 
 connection();
 
