@@ -9,6 +9,8 @@ const { addBook } = require("./constrollers");
 
 const { updateBook } = require("./constrollers");
 
+const { deleteBook } = require("./constrollers");
+
 // getAllBooks
 bookRouter.get("/books/getAllBooks", getAllBooks);
 
@@ -18,7 +20,7 @@ bookRouter.post("/books/addBook", addBook);
 //finds a book my title and changes the author
 bookRouter.put("/books/updateBook", updateBook);
 
-//deleteBook
-// bookRouter.delete("/books",deleteBook);
+// deleteBook
+bookRouter.delete("/books/deleteBook", deleteBook);
 
 module.exports = bookRouter;
