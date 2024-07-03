@@ -16,22 +16,6 @@ connection();
 
 app.use(bookRouter);
 
-// addBook
-app.post("/books/addBook", async (request, response) => {
-  const book = await Book.create({
-    title: request.body.title,
-    author: request.body.author,
-    genre: request.body.genre,
-  });
-
-  const successResponse = {
-    message: "success",
-    book: book,
-  };
-
-  response.send(successResponse);
-});
-
 //finds a book my title and changes the author===============================================================
 app.put("/books", async (request, response) => {
   const { title, newTitle, newAuthor } = request.body;
