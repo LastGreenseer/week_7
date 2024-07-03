@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 
+const Book = require("./books/model")
+
 const connection = require("./db/connection");
 
 const app = express();
@@ -9,27 +11,6 @@ const app = express();
 app.use(express.json());
 
 connection();
-
-// Book Modal==============
-
-const bookSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    unigue: true,
-  },
-  author: {
-    type: String,
-    required: true,
-  },
-  genre: {
-    type: String,
-  },
-});
-
-const Book = mongoose.model("Book", bookSchema);
-
-//Book model ends==========
 
 //gettAllBooks
 app.get("/books/getAllBooks", async (request, response) => {
