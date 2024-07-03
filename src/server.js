@@ -16,36 +16,6 @@ connection();
 
 app.use(bookRouter);
 
-//finds a book my title and changes the author===============================================================
-app.put("/books", async (request, response) => {
-  const { title, newTitle, newAuthor } = request.body;
-
-  //Uses Mongoose's `updateOne` method to find a book by its title and update its author
-  try {
-    const updatedBook = await Book.updateOne(
-      { title: title },
-      //The `$set` operator specifies the fields to update
-      { $set: { author: newAuthor, title: newTitle } }
-    );
-
-    //respond with an error if book is not found
-    if (updatedBook.matchedCount === 0) {
-      return response.status(404).json({ message: "book not found" });
-    }
-
-    response.status(200).json({ message: "Book info updated successfully" });
-    //catch any other errors that might occur during processing and return an error message
-  } catch (error) {
-    response
-      .status(500)
-      .json({
-        message: "An unexpected error has occured",
-        error: error.message,
-      });
-  }
-});
-//finds a book my title and changes the author================================================================
-
 //deleteBook
 app.delete("/books", async (request, response) => {});
 
