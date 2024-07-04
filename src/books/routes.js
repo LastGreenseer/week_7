@@ -15,6 +15,8 @@ const { deleteBooksByAuthor } = require("./constrollers");
 
 const { deleteAllBooks } = require("./constrollers");
 
+const { findBookByTitle } = require("./constrollers");
+
 // getAllBooks
 bookRouter.get("/books/getAllBooks", getAllBooks);
 
@@ -32,5 +34,7 @@ bookRouter.delete("/books/byAuthor", deleteBooksByAuthor);
 
 //delete all books in database
 bookRouter.delete("/books/deleteAllBooks", deleteAllBooks);
+
+bookRouter.get("/books/byTitle", findBookByTitle);
 
 module.exports = bookRouter;

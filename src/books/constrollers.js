@@ -144,14 +144,32 @@ const deleteAllBooks = async (request, response) => {
     const result = await Book.deleteMany({});
 
     if (result.deletedCount === 0) {
-      return response
-        .status(404)
-        .json({ message: "No books to delete" });
+      return response.status(404).json({ message: "No books to delete" });
     }
 
     response.status(200).json({
       message: `All books successfully removed! Total deleted: ${result.deletedCount}`,
     });
+  } catch (error) {
+    response.status(500).json({
+      message: "An unexpected error has occured",
+      error: error.message,
+    });
+  }
+};
+
+//find a single book by title
+const findBookByTitle = async (request, response) => {
+  const { title } = request.query;
+
+  try {
+    const book = await Book.findOne({ title: title });
+
+    if (!book) {
+      return response.status(404).json({ message: "Book not found" });
+    }
+
+    response.status(200).json(book);
   } catch (error) {
     response.status(500).json({
       message: "An unexpected error has occured",
@@ -167,4 +185,5 @@ module.exports = {
   deleteBook,
   deleteBooksByAuthor,
   deleteAllBooks,
+  findBookByTitle,
 };
