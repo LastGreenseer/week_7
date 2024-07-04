@@ -11,6 +11,8 @@ const { updateBook } = require("./constrollers");
 
 const { deleteBook } = require("./constrollers");
 
+const { deleteBooksByAuthor } = require("./constrollers");
+
 // getAllBooks
 bookRouter.get("/books/getAllBooks", getAllBooks);
 
@@ -22,5 +24,8 @@ bookRouter.put("/books", updateBook);
 
 // deleteBook
 bookRouter.delete("/books/deleteBook", deleteBook);
+
+//delete books from a specified author
+bookRouter.delete("/books/byAuthor", deleteBooksByAuthor);
 
 module.exports = bookRouter;

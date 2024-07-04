@@ -32,9 +32,10 @@ const addBook = async (request, response) => {
   response.send(successResponse);
 };
 
-//===========================================================find a book by title and update the title and author====================================================
+//===========================================================find a book by title and update the title and author====================================================//
 const updateBook = async (request, response) => {
   const { title, newTitle, newAuthor, newGenre } = request.body;
+
   //const {title, ...updateFields} = request.body
 
   //Uses Mongoose's `updateOne` method to find a book by its title and update its author
@@ -51,12 +52,12 @@ const updateBook = async (request, response) => {
   // }
 
   //simplified version of above code. allows fields to be updated individually by extracting them explicitly
-  try {
-    const updateObject = {};
-    if (newTitle) updateObject.title = newTitle;
-    if (newAuthor) updateObject.author = newAuthor;
-    if (newGenre) updateObject.genre = newGenre;
+  const updateObject = {};
+  if (newTitle) updateObject.title = newTitle;
+  if (newAuthor) updateObject.author = newAuthor;
+  if (newGenre) updateObject.genre = newGenre;
 
+  try {
     //Uses Mongoose's `updateOne` method to find a book by its title
     const updatedBook = await Book.updateOne(
       { title: title },
@@ -68,7 +69,7 @@ const updateBook = async (request, response) => {
     //404 is a client error, 200 is a success and 500 is for server errors
 
     if (updatedBook.matchedCount === 0) {
-      return response.status(404).json({ message: "Book does not exist" });
+      return response.status(404).json({ message: "Book not found" });
     }
 
     response
@@ -82,10 +83,9 @@ const updateBook = async (request, response) => {
     });
   }
 };
+//=====================================================end of find a book by title and update the title and author====================================================//
 
-//=====================================================end of find a book by title and update the title and author====================================================
-
-//==========================================================================delete a book=============================================================================
+//==========================================================================delete book===============================================================================//
 const deleteBook = async (request, response) => {
   //extract the title of the book to be deleted from the request body
   const { title } = request.body;
@@ -97,7 +97,7 @@ const deleteBook = async (request, response) => {
     //if the deleteCount is 0, no book with that title was found
     //thus an error message is returned with 'response.status(404)'
     if (deletedBook.deletedCount === 0) {
-      return response.status(404).json({ message: "Book does not exist" });
+      return response.status(404).json({ message: "Book not found" });
     }
 
     //otherwise the book was deleted and it responds with a 200 status, indicating a success
@@ -110,6 +110,36 @@ const deleteBook = async (request, response) => {
     });
   }
 };
-//==========================================================================delete a book end============================================================================
+//==========================================================================delete book end============================================================================//
 
-module.exports = { getAllBooks, addBook, updateBook, deleteBook };
+//delete all book from a specific author
+const deleteBooksByAuthor = async (request, response) => {
+  const { author } = request.body;
+
+  try {
+    const result = await Book.deleteMany({ author: author });
+
+    if (result.deletedCount === 0) {
+      return response
+        .status(404)
+        .json({ message: "No books from this author could be found" });
+    }
+
+    response.status(200).json({
+      message: `${result.deletedCount} book(s) by ${author} have successfully been deleted`,
+    });
+  } catch (error) {
+    response.status(500).json({
+      message: "An unexpected error has occured",
+      error: error.message,
+    });
+  }
+};
+
+module.exports = {
+  getAllBooks,
+  addBook,
+  updateBook,
+  deleteBook,
+  deleteBooksByAuthor,
+};
