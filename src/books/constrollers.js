@@ -117,6 +117,7 @@ const deleteBooksByAuthor = async (request, response) => {
   const { author } = request.body;
 
   try {
+    //uses Mongoos's `deleteMany` method with the filter ({author: author}) applied to delete all books by the specified author
     const result = await Book.deleteMany({ author: author });
 
     if (result.deletedCount === 0) {
@@ -136,10 +137,34 @@ const deleteBooksByAuthor = async (request, response) => {
   }
 };
 
+//remove all books from the database
+const deleteAllBooks = async (request, response) => {
+  try {
+    //uses Mongoos's `deleteMany` method without a filter so all books are selected
+    const result = await Book.deleteMany({});
+
+    if (result.deletedCount === 0) {
+      return response
+        .status(404)
+        .json({ message: "No books to delete" });
+    }
+
+    response.status(200).json({
+      message: `All books successfully removed! Total deleted: ${result.deletedCount}`,
+    });
+  } catch (error) {
+    response.status(500).json({
+      message: "An unexpected error has occured",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getAllBooks,
   addBook,
   updateBook,
   deleteBook,
   deleteBooksByAuthor,
+  deleteAllBooks,
 };
