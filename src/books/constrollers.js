@@ -8,7 +8,7 @@ const getAllBooks = async (request, response) => {
   //step 2: create success object
   const successResponse = {
     message: "Success!",
-    allBooks: books,
+    books: books,
   };
 
   //step 3: responce

@@ -35,6 +35,7 @@ bookRouter.delete("/books/byAuthor", deleteBooksByAuthor);
 //delete all books in database
 bookRouter.delete("/books/deleteAllBooks", deleteAllBooks);
 
+//get a single book by its title
 bookRouter.get("/books/byTitle", findBookByTitle);
 
 module.exports = bookRouter;
